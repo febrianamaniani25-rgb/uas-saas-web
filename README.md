@@ -1,35 +1,21 @@
-# UAS SAAS
+# UAS SAAS: Inventory Management System
 
-A simple Next.js App Router project with Tailwind CSS and Supabase auth.
+Aplikasi berbasis web untuk manajemen inventaris yang terintegrasi dengan Supabase. Proyek ini dibangun sebagai bagian dari tugas akhir mata kuliah Pemrograman Web.
 
-## Setup
+## 🚀 Live Demo
+Akses aplikasi yang sudah dideploy di Vercel:
+[https://uas-saas-web-hdr4.vercel.app/](https://uas-saas-web-hdr4.vercel.app/)
 
-1. Copy the project folder to your local machine.
-2. Create a Supabase project and add a table named `inventory` with columns:
-   - `id` (uuid, primary key)
-   - `name` (text)
-   - `quantity` (integer)
-   - `price` (numeric)
-3. Add environment variables in `.env.local`:
+## 🛠️ Tech Stack
+- **Framework**: Next.js
+- **Styling**: Tailwind CSS
+- **Database & Auth**: Supabase
+- **Deployment**: Vercel
 
-```
-NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
-```
+## ✨ Fitur Utama
+- **Autentikasi Pengguna**: Sistem login dan registrasi aman.
+- **CRUD Inventory**: Pengguna dapat menambah, melihat, dan mengelola item inventaris secara real-time.
+- **Responsive UI**: Desain antarmuka yang nyaman di berbagai perangkat.
 
-4. Install dependencies:
-
-```
-npm install
-```
-
-5. Run development server:
-
-```
-npm run dev
-```
-
-## Notes
-
-- Login and register pages use Supabase Auth.
-- Dashboard reads/writes the `inventory` table.
+## 📝 Catatan Pengerjaan
+Proyek ini dikembangkan dengan fokus pada kemudahan penggunaan (*user-friendly*) dan efisiensi sistem database.
