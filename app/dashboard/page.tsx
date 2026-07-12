@@ -121,7 +121,7 @@ export default function DashboardPage() {
         return;
       }
 
-      setSuccessMessage('Item updated successfully.');
+      setSuccessMessage('Mission updated successfully.');
     } else {
       const { error } = await supabase.from('inventory').insert([{ name: name.trim(), quantity: parsedQuantity, price: parsedPrice }]);
       setLoading(false);
@@ -131,7 +131,7 @@ export default function DashboardPage() {
         return;
       }
 
-      setSuccessMessage('Item added successfully.');
+      setSuccessMessage('Mission added successfully.');
     }
 
     resetForm();
@@ -148,7 +148,7 @@ export default function DashboardPage() {
   }
 
   async function handleDelete(id: string) {
-    const confirmed = window.confirm('Delete this item?');
+    const confirmed = window.confirm('Delete this mission?');
     if (!confirmed) {
       return;
     }
@@ -162,7 +162,7 @@ export default function DashboardPage() {
       return;
     }
 
-    setSuccessMessage('Item deleted successfully.');
+    setSuccessMessage('Mission deleted successfully.');
 
     if (editingId === id) {
       resetForm();
@@ -396,10 +396,10 @@ export default function DashboardPage() {
               ) : null}
               <div className="flex flex-wrap gap-3">
                 <button
-                onClick={handleSubmit}
-                disabled={loading}
-                className="rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
-              >
+                  onClick={handleSubmit}
+                  disabled={loading}
+                  className="rounded-full bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition duration-200 hover:-translate-y-0.5 hover:bg-emerald-500 disabled:cursor-not-allowed disabled:opacity-60"
+                >
                   {editingId ? 'Update mission' : 'Save mission'}
                 </button>
                 <button

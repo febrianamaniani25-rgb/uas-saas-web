@@ -1,70 +1,61 @@
-# UAS SAAS: Inventory Management System
+# UAS SAAS: Gamified Learning Quest App
 
-Aplikasi berbasis web untuk manajemen inventaris yang terintegrasi dengan Supabase. Proyek ini dibangun sebagai bagian dari tugas akhir mata kuliah Pemrograman Web.
+Aplikasi web pembelajaran bergaya game yang terinspirasi dari Duolingo, dengan fitur streak, XP, koin, misi harian, dan reward. Proyek ini dibangun sebagai bagian dari tugas akhir mata kuliah Pemrograman Web dan dideploy menggunakan Vercel dengan database Supabase.
 
 ## 🚀 Live Demo
 Akses aplikasi yang sudah dideploy di Vercel:
 [https://uas-saas-web-hdr4.vercel.app/](https://uas-saas-web-hdr4.vercel.app/)
 
-<<<<<<< HEAD
-1. Copy the project folder to your local machine.
-2. Create a Supabase project and add a table named `inventory` with columns:
-   - `id` (uuid, primary key)
-   - `name` (text)
-   - `quantity` (integer)
-   - `price` (numeric)
-3. Copy `.env.local.example` to `.env.local` and add your Supabase credentials:
-=======
 ## 🛠️ Tech Stack
-- **Framework**: Next.js
+- **Framework**: Next.js 14
 - **Styling**: Tailwind CSS
 - **Database & Auth**: Supabase
 - **Deployment**: Vercel
->>>>>>> 5a05764162ebb55bf86a4fcc74fe90ffa391e070
 
 ## ✨ Fitur Utama
-- **Autentikasi Pengguna**: Sistem login dan registrasi aman.
-- **CRUD Inventory**: Pengguna dapat menambah, melihat, dan mengelola item inventaris secara real-time.
-- **Responsive UI**: Desain antarmuka yang nyaman di berbagai perangkat.
+- **Autentikasi Pengguna**: Login dan registrasi aman via Supabase Auth.
+- **Dashboard Gamifikasi**: Melihat XP, streak, koin, dan achievement.
+- **Misi Harian**: Tambah, edit, hapus, dan filter misi pembelajaran.
+- **Progress Tracking**: Progress bar, pencarian, dan pagination.
+- **Reward System**: Sistem klaim reward harian.
+- **Responsive UI**: Tampilan nyaman di desktop maupun mobile.
 
-<<<<<<< HEAD
-4. Install dependencies:
+## 📦 Setup Lokal
 
-```
-npm install
-```
+1. Clone repository ini.
+2. Salin `.env.local.example` menjadi `.env.local`, lalu isi dengan kredensial Supabase:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   ```
+3. Install dependensi:
+   ```
+   npm install
+   ```
+4. Jalankan development server:
+   ```
+   npm run dev
+   ```
 
-5. Run development server:
+## 🗄️ Setup Supabase
 
-```
-npm run dev
-```
+1. Buat proyek Supabase baru.
+2. Buat tabel `inventory` dengan kolom:
+   - `id` (uuid, primary key, default `gen_random_uuid()`)
+   - `name` (text)
+   - `quantity` (integer) — digunakan sebagai progress misi
+   - `price` (numeric) — digunakan sebagai skor/XP
+3. Nonaktifkan Row Level Security (RLS) untuk tabel `inventory`, atau buat policy yang mengizinkan pengguna terautentikasi membaca/menulis data.
+4. Masukkan credential Supabase ke dalam environment variables.
 
-## Supabase setup
+## 🚢 Deploy ke Vercel
 
-1. Create a Supabase project.
-2. Create a table named `inventory` with columns:
-   - `id` uuid primary key, default `gen_random_uuid()` or `uuid_generate_v4()`
-   - `name` text
-   - `quantity` integer
-   - `price` numeric
-3. In `Authentication -> Policies`, disable row level security for `inventory` or create policies that allow authenticated users to select/insert/update/delete rows.
-4. Use the same credentials in `.env.local`.
-
-## Deploy to Vercel
-
-1. Push the project to GitHub.
-2. In Vercel, create a new project and import this repository.
-3. Add environment variables in Vercel settings:
+1. Push proyek ke GitHub.
+2. Buat proyek baru di Vercel dan import repository ini.
+3. Tambahkan environment variables di Vercel Settings:
    - `NEXT_PUBLIC_SUPABASE_URL`
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
-4. Deploy the app.
+4. Deploy aplikasi.
 
-## Notes
-
-- Login and register pages use Supabase Auth.
-- Dashboard reads/writes the `inventory` table.
-=======
 ## 📝 Catatan Pengerjaan
-Proyek ini dikembangkan dengan fokus pada kemudahan penggunaan (*user-friendly*) dan efisiensi sistem database.
->>>>>>> 5a05764162ebb55bf86a4fcc74fe90ffa391e070
+Proyek ini dikembangkan dengan fokus pada pengalaman pengguna yang menyenangkan (*user-friendly*) dan sistem gamifikasi yang memotivasi belajar. Tampilan dan alur aplikasi terinspirasi dari Duolingo web/app.
