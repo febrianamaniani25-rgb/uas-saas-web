@@ -5,6 +5,8 @@ import { useEffect, useMemo, useState } from 'react';
 import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase';
 
+import { supabase, hasSupabase } from '@/lib/supabase';
+
 type Item = {
   id: string;
   name: string;
@@ -12,15 +14,24 @@ type Item = {
   price: number;
 };
 
+const demoItems: Item[] = [
+  { id: 'demo-1', name: 'Web Fundamentals', quantity: 85, price: 120 },
+  { id: 'demo-2', name: 'JavaScript Advanced', quantity: 45, price: 80 },
+  { id: 'demo-3', name: 'React Patterns', quantity: 92, price: 150 },
+  { id: 'demo-4', name: 'Tailwind Mastery', quantity: 30, price: 45 },
+  { id: 'demo-6', name: 'TypeScript Basics', quantity: 75, price: 110 },
+  { id: 'demo-7', name: 'UI/UX Principles', quantity: 60, price: 90 },
+];
+
 export default function DashboardPage() {
   const router = useRouter();
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<Item[]>(hasSupabase ? [] : demoItems);
   const [name, setName] = useState('');
   const [quantity, setQuantity] = useState('');
   const [price, setPrice] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [authChecking, setAuthChecking] = useState(true);
+  const [authChecking, setAuthChecking] = useState(hasSupabase);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [rewardOpen, setRewardOpen] = useState(false);
@@ -30,6 +41,11 @@ export default function DashboardPage() {
   const [itemsPerPage, setItemsPerPage] = useState(5);
 
   useEffect(() => {
+    if (!hasSupabase) {
+      setAuthChecking(false);
+      return;
+    }
+
     async function initializeDashboard() {
       const {
         data: { session },
@@ -58,9 +74,14 @@ export default function DashboardPage() {
     return () => {
       subscription.unsubscribe();
     };
-  }, [router]);
+  }, [router, hasSupabase]);
 
   async function fetchItems() {
+    if (isDemo) {
+      setItems(demoItems);
+      return;
+    }
+
     setLoading(true);
     const { data, error } = await supabase.from('inventory').select('*');
     setLoading(false);
@@ -109,6 +130,34 @@ export default function DashboardPage() {
 
     setLoading(true);
 
+    if (isDemo) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      if (editingId) {
+        setItems((prev) =>
+          prev.map((item) =>
+            item.id === editingId
+              ? { ...item, name: name.trim(), quantity: parsedQuantity, price: parsedPrice }
+              : item
+          )
+        );
+        setSuccessMessage('Mission updated successfully.');
+      } else {
+        const newItem: Item = {
+          id: `demo-${Date.now()}`,
+          name: name.trim(),
+          quantity: parsedQuantity,
+          price: parsedPrice,
+        };
+        setItems((prev) => [...prev, newItem]);
+        setSuccessMessage('Mission added successfully.');
+      }
+
+      setLoading(false);
+      resetForm();
+      return;
+    }
+
     if (editingId) {
       const { error } = await supabase
         .from('inventory')
@@ -154,6 +203,19 @@ export default function DashboardPage() {
     }
 
     setLoading(true);
+
+    if (isDemo) {
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      setItems((prev) => prev.filter((item) => item.id !== id));
+      setLoading(false);
+      setSuccessMessage('Mission deleted successfully.');
+
+      if (editingId === id) {
+        resetForm();
+      }
+      return;
+    }
+
     const { error } = await supabase.from('inventory').delete().eq('id', id);
     setLoading(false);
 
@@ -172,6 +234,11 @@ export default function DashboardPage() {
   }
 
   async function handleLogout() {
+    if (isDemo) {
+      router.push('/login');
+      return;
+    }
+
     await supabase.auth.signOut();
     router.push('/login');
   }

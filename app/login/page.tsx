@@ -59,6 +59,13 @@ export default function LoginPage() {
           <button disabled={loading} className="rounded-full bg-emerald-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70">
             {loading ? 'Signing in...' : 'Sign in'}
           </button>
+          <button
+            type="button"
+            onClick={() => router.push('/dashboard')}
+            className="rounded-full border border-slate-700 bg-slate-950/80 px-6 py-3 text-sm font-semibold text-slate-100 transition hover:border-emerald-400 hover:text-emerald-300"
+          >
+            Try demo
+          </button>
           <p className="text-sm text-slate-400">
             Belum punya akun?{' '}
             <Link href="/register" className="font-semibold text-emerald-400 hover:text-emerald-300">
