@@ -3,8 +3,6 @@
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
-import { supabase } from '@/lib/supabase';
-
 import { supabase, hasSupabase } from '@/lib/supabase';
 
 type Item = {
