@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { FormEvent, useState } from 'react';
 import { supabase } from '@/lib/supabase';
@@ -8,20 +9,24 @@ export default function RegisterPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleRegister(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setLoading(true);
 
     const { data, error } = await supabase.auth.signUp({ email, password });
+    setLoading(false);
+
     if (error) {
       setError(error.message);
       return;
     }
 
     if (data.user) {
-      router.push('/dashboard');
+      router.push('/login');
     }
   }
 
@@ -51,9 +56,15 @@ export default function RegisterPage() {
             />
           </label>
           {error ? <p className="text-sm text-rose-400">{error}</p> : null}
-          <button className="rounded-full bg-emerald-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400">
-            Create account
+          <button disabled={loading} className="rounded-full bg-emerald-500 px-6 py-3 text-sm font-semibold text-slate-950 transition hover:bg-emerald-400 disabled:cursor-not-allowed disabled:opacity-70">
+            {loading ? 'Creating account...' : 'Create account'}
           </button>
+          <p className="text-sm text-slate-400">
+            Sudah punya akun?{' '}
+            <Link href="/login" className="font-semibold text-emerald-400 hover:text-emerald-300">
+              Masuk di sini
+            </Link>
+          </p>
         </form>
       </div>
     </main>
